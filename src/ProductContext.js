@@ -1,4 +1,4 @@
-import React, {useState, createContext} from "react";
+import React, {useState, createContext, useMemo, useCallback } from "react";
 
 export const ProductContext = createContext();
 
@@ -22,27 +22,30 @@ export default function ProductContextData (props){
         }
       ])
   
-    const addProduct = (newProductName, cost) => {
-        let id = Math.floor(Math.random() * 1000000);
+    // const addProduct = (newProductName, cost) => {
+    //     let id = Math.floor(Math.random() * 1000000);
 
-        const productsWithNewAdded = [...products, {
-            id: id,
-            product_name: newProductName,
-            cost: cost
-          }]
-        setProducts(productsWithNewAdded);
-    }
+    //     const productsWithNewAdded = [...products, {
+    //         id: id,
+    //         product_name: newProductName,
+    //         cost: cost
+    //       }]
+    //     setProducts(productsWithNewAdded);
+    // }
 
-    function getProductByID(productParams){
-        const foundProduct = products.filter((p)=> p.id === parseInt(productParams));
-        return foundProduct;
-    }
-
-    const context = {
-        products: products,
-        addProduct: addProduct,
-        getProductByID: getProductByID
-    }
+    const context = useMemo(() => {
+        return {
+            products: products,
+            getProductByID: (productId) => {return products.filter((p)=> p.id === parseInt(productId))},
+            addProduct: (newProductName, cost) => {
+                setProducts([...products, {
+                    id: id,
+                    product_name: newProductName,
+                    cost: cost
+                }])
+            }
+        }    
+    }, [products]);
 
     return (
         <ProductContext.Provider value={context}>
