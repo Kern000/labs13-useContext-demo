@@ -1,5 +1,5 @@
 import React, {useState, useContext} from "react";
-import ProductContext from "./ProductContext";
+import { ProductContext } from "./ProductContext";
 
 const AddProduct = () => {
 
@@ -23,11 +23,6 @@ const AddProduct = () => {
 
     return (
         <React.Fragment>
-            <ul>
-                {context.getProducts().map(p => (
-                    <li> {p.product_name}</li>
-                ))}
-            </ul>
             <h1> Add New Product </h1>
             <div>
                     <label> Product Name </label>
